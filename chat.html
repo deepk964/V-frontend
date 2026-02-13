@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Valentine 💖</title>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #fad0c4, #ff9a9e);
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-box {
+      width: 380px;
+      height: 600px;
+      background: white;
+      border-radius: 22px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+    }
+
+    .title {
+  font-size: 14px;
+  color: #ff4d6d;
+  text-align: center;
+  margin-top: 20px;   /* 👈 this creates space */
+  margin-bottom: 10px;
+}
+
+
+    .calendar-box a {
+  color: #ff4d6d;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.calendar-box a:hover {
+  text-decoration: underline;
+}
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+      margin-bottom: 10px;
+    }
+
+    .msg {
+      margin: 8px 0;
+      padding: 10px 14px;
+      border-radius: 16px;
+      max-width: 80%;
+      font-size: 14px;
+      line-height: 1.3;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background: #ff4d6d;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background: #f2f2f2;
+      color: #333;
+      align-self: flex-start;
+    }
+
+    .input-box {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-family: inherit;
+    }
+
+    button {
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+    textarea {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+}
+  </style>
+</head>
+
+<body>
+  <div class="chat-box">
+
+    
+
+    <div class="calendar-box">
+  <strong>Valentine's Day ❤️</strong><br>
+  Feb 14 • 00:00 – 23:55<br>
+  <a href="https://calendar.app.google/5MDokkAuBEH3UzZL7" target="_blank">
+    View details & RSVP 💌
+  </a>
+</div>
+
+    <div class="title">
+      Busy with work 🫠 so this AI version of your boyfriend is on duty till Feb 14 💖
+    </div>
+
+    <div class="messages" id="messages"></div>
+
+    <div class="input-box">
+      <textarea id="input" rows="2" placeholder="Say something sweet ❤️"></textarea>
+      
+      <button onclick="sendMessage()">Send</button>
+    </div>
+
+  </div>
+
+<script>
+async function sendMessage() {
+  const input = document.getElementById("input");
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  addMessage(msg, "user");
+  input.value = "";
+
+  const res = await fetch("web-production-91e22.up.railway.app", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: msg })
+  });
+
+  const data = await res.json();
+  addMessage(data.reply, "bot");
+}
+
+function addMessage(text, cls) {
+  const div = document.createElement("div");
+  div.className = `msg ${cls}`;
+  div.innerText = text;
+  const messages = document.getElementById("messages");
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+const input = document.getElementById("input");
+
+input.addEventListener("keydown", function (e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+</script>
+
+</body>
+</html>
