@@ -150,7 +150,7 @@ async function sendMessage() {
   addMessage(msg, "user");
   input.value = "";
 
-  const res = await fetch("https://web-production-91e22.up.railway.app/chat", {
+  const res = await fetch("https://v-backend-production-9283.up.railway.app/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: msg })
